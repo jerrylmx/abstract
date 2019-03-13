@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+
+  <title>Aram</title>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="header clearfix">
+      <nav class="pt-3">
+        <ul class="nav nav-pills float-right">
+          <li class="nav-item">
+            <a class="nav-link active" href="../index.html">Back</a>
+          </li>
+        </ul>
+      </nav>
+      <h3 class="text-primary">Aram prediction</h3>
+    </div>
+    <hr>
+
+    <div class="pt-4 row">
+      <div class="col-md-auto">
+        <div class="pb-5">
+          <h4>Languages/Frameworks</h4>
+          <p>Python, Numpy, Sklearn</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row marketing">
+      <div class="col-lg-6">
+        <h4>Introduction</h4>
+        <p>
+          Aram is one of the random pick game mode of league of legends where players are randomly assigned a role with the possibility
+          to reroll if collected enough 'reroll points'. Thus, a game's outcome is mainly affected by which champions each
+          team get. Since league of legends has a powerful system for matching players of the same level, this program will
+          predict game outcomes only from champion assignments. In other words, the program treats Aram game as a card game
+          between two players (teams), each of them is holding 5 cards randomly picked from a pool. There could be over 600
+          million possible games. Naive bayes and KNN are used as learning method. The program is extremely simple by using
+          Sklearn's api.
+        </p>
+      </div>
+      <div class="col-lg-6 pt-5">
+        <img src="../images/aram.jpg">
+      </div>
+    </div>
+
+    <div class="pt-5 row">
+      <div class="col-md">
+        <div class="pb-5">
+          <h4>Data</h4>
+          <p>
+            Around 25000 aram match records are downloaded through Riot API. Training set 23000, testing 1000, validation set 1000 with
+            10 fold CV. Each record is represented by an array of length 11 where the first 5 entries, second 5 entries contains
+            the champion ids of team 1 and team 2 and the last entry is either 1 or 0 indicating whether team1 win or lose
+            in that game. Riot has just updated their API and made it difficult to retrive matches so it took me 80 hours
+            to obtain the dataset.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md">
+        <div class="">
+          <h4>Generating features</h4>
+          <p>
+              Expanding each match record to
+              an array of (2 * num_champions + 1) entries. Each entry becomes a boolean represents whether champion xxx
+              appears on team 1 (or team 2 or the second half array). The last bit represents the outcome as before.
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row pt-5">
+        <div class="col-md">
+          <div class="">
+            <h4>Bernoulli Naive Bayes</h4>
+            <p> Naive bayes where P(x|y) is computed from:
+            </p>
+            <img src="../images/bnb.jpg">
+
+          </div>
+        </div>
+    </div>
+
+    <div class="row pt-5">
+        <div class="col-md">
+          <div class="">
+              <h4>Accuracy</h4>
+              <p> Overall: 67%
+              </p>
+              <p> Although the overall accuracy is not that good, but the programs always catches unevenly assigned matches 
+                correctly. For example, instead of taking the predicted label from NB, we can first check the actual probs
+                for each class and the larger the differece, the more confident we are about the result. [0.45 , 0.55] for 
+                [team1 win prob, team2 win prob] does't tell us much useful information but a [0.8, 0.2] one does.
+            <img height="300" src="../images/Screen Shot 2019-03-13 at 12.22.53 AM.png">
+              <p> Severely unbalanced matches are easier to predit but rare.
+              </p>
+              <img height="300" src="../images/Screen Shot 2019-03-13 at 12.22.53 AM.png">
+          </div>
+        </div>
+    </div>
+
+
+  </div>
+
+</body>
+
+</html>

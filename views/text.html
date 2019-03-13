@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Texts</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="header clearfix">
+      <nav class="pt-3">
+        <ul class="nav nav-pills float-right">
+          <li class="nav-item">
+            <a class="nav-link active" href="../index.html">Back</a>
+          </li>
+        </ul>
+      </nav>
+      <h3 class="text-primary">Texts Clustering</h3>
+    </div>
+    <hr>
+
+    <div class="pt-4 row">
+      <div class="col-md-auto">
+        <div class="pb-5">
+          <h4>Languages/Frameworks</h4>
+          <p>ReactJs, Javascript, React bootstrap, PDFjs</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row marketing">
+      <div class="col-lg-6">
+        <h4>Introduction</h4>
+        <p>
+          Text files downloaded from the internet usually have a random file name which makes it hard to group them without seeing
+          their content. To solve file clustering problem, this program will look into each file you want to group and computing
+          'distances' or similarities between every pair to find clusters. The quality of a solution can be measured by how
+          similar are the texts inside a common cluster and how different are the clusters. Density based algorithms can
+          handle non-convex boundaries which is suitable for this problem, since you may want classify texts by genre and
+          exact content, algorithms like DBSCAN may put unrelated (but same type) texts the same cluster.
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <img src="../images/dbscan.png">
+      </div>
+    </div>
+
+    <div class="pt-5 row">
+      <div class="col-md-auto">
+        <div class="pb-5">
+          <h4>The pipeline</h4>
+          <p>
+            Raw texts -> frequence vector -> centering -> computing distance matrix -> merging similar texts
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class=" row">
+      <div class="col-md">
+        <div class="">
+          <h4>Generating features</h4>
+          <p>
+            In order to get features of each text, I use
+            <a href="https://en.wikipedia.org/wiki/Bag-of-words_model"> Bag-of-words'<a/>. Which ignores the 
+              ordering or individual words but number of occurance. And then similarities are computed
+              between each pair of frequency vectors. (proportional to num_words_in_common / total words)
+              Distances are then normalized to a number in [0,1]
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md">
+          <div class="pb-5">
+            <img src="../images/feature.png">
+          </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md">
+          <div class="">
+            <h4>Clustering solution with different radius</h4>
+            <p> Grouping of 9 distinct texts downloaded from the internet. Program output 
+              different solutions as I changing the radius. 
+            </p>
+
+            <h5 class="pt-2">Radius = 1 (If similarity > 1 then merge)</h5>
+            <p>Get most number of clusters in the solution, because for some texts being put in 
+              the same cluster requires their simularity (distance) greater than 1 (identical). 
+              Red links for highlighting strong relationships between texts. (Sim > 0.5)
+            </p>
+            <div class="pb-5">
+                <img src="../images/r=100.jpg">
+            </div>
+
+            <h5 class="pt-2">Radius = 0.85 (If similarity > 0.85 then merge)</h5>
+            <p> 
+              Starts to get meaningful grouping of texts. But 0.85 is still a strict requirement
+              on clusters and you can see for example "Harry Potter - 7" and  "Harry Potter - 6"
+              are considered as same text group but not "Harry Potter - 5", because their story
+              are somehow closer to each other than "Harry Potter - 5".
+            </p>
+            <div class="pb-5">
+                <img src="../images/r=85.jpg">
+            </div>
+
+            <h5 class="pt-2">Radius = 0.75</h5>
+            <p> 
+              It gives a reasonable clustering for the novels and the red links exists between the 
+              novels. The program has realized a major difference between texts of genre novel 
+              like "Star Wars" and other scientific articles like "egypt".
+            </p>
+            <div class="pb-5">
+                <img src="../images/r=75.jpg">
+            </div>
+
+            <h5 class="pt-2">Radius = 0.60</h5>
+            <p> 
+              4 clusters. Novels only take one.
+            </p>
+            <div class="pb-5">
+                <img src="../images/r=60.jpg">
+            </div>
+
+            <h5 class="pt-2">Radius = 0.50</h5>
+            <p> 
+              Finally, the two Descartes' articles are grouped into the same cluster. The grouping 
+              requirement is so relaxed that even "Harry Potter" series and "Star Wars" series are 
+              treated as same text group!
+            </p>
+            <div class="pb-5">
+                <img src="../images/r=50.jpg">
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md">
+          <div class="">
+              <h4>Observations</h4>
+              <p> The program can be useful for detect cheatings!
+              </p>
+              <p> Input texts of the same genre helps improves the solution. As you can see from
+                the example above, scientific articles are far more away from each other than 
+                novels. Scientific articles have a large word varity. Novels usually talks about
+                the same set of characters over again, often you see frequency vectors like 
+                {"harry": 1222, "hesaid": 909 ...}
+              </p>
+          </div>
+        </div>
+    </div>
+
+
+  </div>
+</body>
+
+</html>

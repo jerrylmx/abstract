@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Jerry Liu</title>
+  </head>
+  <body>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+    <div class="bg-dark collapse" id="navbarHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-8 col-md-7 py-4">
+              <p class="text-muted">
+                Here you can find some details about my personal projects
+              </p>
+            </div>
+            <div class="col-sm-4 offset-md-1 py-4">
+              <h4 class="text-white">Contact</h4>
+              <ul class="list-unstyled">
+                <li><a href="mailto:jerryliu0415@gmail.com" class="text-white">Email: jerryliu0415@gmail.com</a></li>
+                <li><a class="text-white">Phone: 7788985220</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+          <a href="#" class="navbar-brand d-flex align-items-center">
+            <strong>Jerry Liu</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </div>
+    <div class="album py-5 bg-light">
+        <div class="container">
+    
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img src="./images/a.png" height="250"/>
+                <div class="card-body">
+                  <h4>Abstract Battle</h4>
+                  <p class="card-text">
+                    A multiplayer realtime brower game, can be used as a template and add more creativity.
+                    The game includes a simple game server which adopts express and socket.io, 
+                    a 2D physics engine (matter.js), and a client UI (Phaser3). It also includes my implementation
+                    of a simple client interpolation strategy to deal with network jitter problems.
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <a href="http://abstract-test.herokuapp.com/" class="btn btn-sm btn-outline-secondary" role="button">Demo</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img src="./images/b.jpeg" height="250"/>
+                <div class="card-body">
+                  <h4>Smart Elevators</h4>
+                  <p class="card-text">
+                    How elevator systems assign tasks can be an interesting topic. In fact, the problem of choosing
+                    the optimal plan to operate in a given traffic is a really hard problem. In practice, people use
+                    some greedy or approximation algorithms to assign tasks to elevators and they work pretty well.
+                    In this project, I built a simple simulator which help me analyze how different algorithms work
+                    in different traffic settings. The goal is to see if we can dymanically change algorithms at different
+                    times in a day, such that the elevators can be more efficient.
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <a href="views/elevator.html" class="btn btn-sm btn-outline-secondary" role="button">Details</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img src="./images/c.jpg" height="250"/>
+                <div class="card-body">
+                  <h4>Text Clustering</h4>
+                  <p class="card-text">
+                    This application takes in a set of text files, scan through each one and calculate the similarities 
+                    between each pair of files. And then group similar files together based on the threshold which is set
+                    by the user. Application of this tool includes organizing files, plagiarism detection, etc.
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="https://groupmytexts.firebaseapp.com/" class="btn btn-sm btn-outline-secondary" role="button">Demo</a>
+                        <a href="views/text.html" class="btn btn-sm btn-outline-secondary" role="button">Details</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+    
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img height="250" src="./images/aram.jpg"/>
+                <div class="card-body">
+                  <h4>Aram Prediction</h4>
+                  <p class="card-text">
+                    The popular game League of Legends has a sophisticated matching algorithm that aim to create fair games.
+                    However, game outcomes can be more predictable when people play with random roles. Therefore, this application
+                    analyzes on a set of random matches and try to explore the unfairness of a game, by making a prediction before
+                    a match starts.
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="views/aram.html" class="btn btn-sm btn-outline-secondary" role="button">Details</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  
+  </body>
+</html>

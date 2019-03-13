@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="./favicon.ico">
+
+  <title>Elevator</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="header clearfix">
+      <nav class="pt-3">
+        <ul class="nav nav-pills float-right">
+          <li class="nav-item">
+            <a class="nav-link active" href="../index.html">Back</a>
+          </li>
+        </ul>
+      </nav>
+      <h3 class="text-primary">Smart Elevators</h3>
+    </div>
+    <hr>
+
+    <div class="pt-4 row">
+      <div class="col-md-auto">
+        <div class="pb-5">
+          <h4>Languages/Frameworks</h4>
+          <p>ReactJs, Javascript, React bootstrap, Google database server, Chartjs</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row marketing">
+      <div class="col-lg-6">
+        <h4>Introduction</h4>
+        <p>
+          This program can simulate the operation of elevators in a build with number of floors in [1,100] and number of elevators
+          in [1,8]. It assigns tasks to elevators by inserting ramdom or fixed passengers who call the elevator according
+          to their destinations immediately after insertion. The main problem is which elevator should go and pick them up
+          under different scenarios. The quality of such algorithms can be measured in terms of passengers' average waiting
+          time, or distance traveled if you care more about energy saving. Optimal or good algorithms are hard to find because
+          their performances vary under different traffic patterns. This program will try out different combinations of algorithms
+          and come up with the one that fits the traffic pattern.
+        </p>
+      </div>
+      <div class="col-lg-6 pl-5">
+        <img src="../images/elevator.jpg">
+      </div>
+    </div>
+
+    <div class="pt-4 row">
+      <div class="col">
+        <div class="pb-2">
+          <h4>Main objectives</h4>
+          <p>
+            Without looking deeper into the problem, there are 2 main objectives. One is to simplify the tasks for elevators as much
+            as possible, which corresponds to find shortest path that visits each passenger and their destination floors.
+            The other objective is to make good use of all existing resources, which corresponds to make equally use of the
+            elevators.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row marketing">
+      <div class="col-lg-6">
+        <h6 class="text-center">Shortest path problem (objective 1)</h6>
+        <img src="../images/path.png">
+      </div>
+      <div class="col-lg-6 pt-5">
+        <h6 class="text-center">Scheduling problem (objective 2)</h6>
+        <img src="../images/interval.gif">
+      </div>
+    </div>
+
+    <div class="pt-5 row">
+      <div class="col">
+        <div class="pb-2">
+          <p>
+            Objective 1 may reduce the total distance traveled by all elevators and thus improve average waiting. It's a harder version
+            of the finding shortest path in a graph (you can treat active floors as nodes, and edge weights as floor distances
+            between floors). The graph itself changes through time as people leaving/entering the building and such changes
+            are related to the traffic pattern you provide. Objective 2 encourages elevators running at the same time thus
+            no elevator can be idle while others are busy. It's impossible to achieve both objectives at the same time, because
+            they contradict to each other. Distance based algorithm focuses on objective 1, but end up with overly use some
+            elevators while others are still idle. Usage based algorithm focuses on objective 2, but cause elevators travel
+            extra distances to complete the same task.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row marketing  pt-5">
+      <div class="col-lg-6">
+        <h4>Distance based algorithm (objective 1)</h4>
+        <p>
+          If you choose pure distance based algorithm in the simulator, the coordinator will select elevator that is nearest to the
+          caller. The distance between any elevator and the caller is approximated by its worst case path length. Although
+          the red elevator looks close to the caller, its direction is down and therefore has large worst case distance (the
+          red path). The blue one is moving towards the passenger, but still not in a perfect condition because top floor
+          have priority over any other floors and in worst case it will visit floor 8 first and then come down. The selected
+          elevator is blue (argmin([4,15,5])). Distance based algorithm is not guaranteed to find the shortest path over
+          time, but as a simple greedy algorithm it will lead to some short paths without heavy computation.
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <img src="../images/dist.jpg">
+      </div>
+    </div>
+
+    <div class="pt-5 row">
+      <div class="col">
+        <div class="pb-2">
+          <h4>Usage based algorithm (objective 2)</h4>
+          <p>
+            Much easier to implement. The coordinator simply choose the one with least passengers or least distance traveled so far.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-5 row">
+      <div class="col">
+        <div class="pb-2">
+          <h4>Observations</h4>
+          <img src="../images/elevator-result.jpg">
+          <p>
+            Good algorithms can be obtained by a weighted combination of dist and usage based algorithms. For example, using dist based
+            algorithm's score but penalized by alpha * num_passengers_inside. (use alpha to control the weights). According to diagram
+            generated by the simulator after a long run, algorithms composed by distance score and a large weighted usage score performs 
+            the best. 
+          </p>
+          <p>
+            Algorithms become less important when the building is small.
+          </p>
+          <p>
+            Objective 1, 2 trade off exists in other problems. For example, should employer overly use the smart employee or assign equal
+            tasks to every employee. By which amount should the productive employee been overly used to remove bottle necks.
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <hr>
+</body>
+
+</html>
