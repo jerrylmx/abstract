@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+
+  <title>Impact2d</title>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="header clearfix">
+      <nav class="pt-3">
+        <ul class="nav nav-pills float-right">
+          <li class="nav-item">
+            <a class="nav-link active" href="../index.html">Back</a>
+          </li>
+        </ul>
+      </nav>
+      <h3 class="text-primary">Impact2d</h3>
+    </div>
+    <hr>
+
+    <div class="pt-4 row">
+      <div class="col-md-auto">
+        <div class="pb-5">
+          <h4>Languages/Frameworks</h4>
+          <p>Js</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row marketing">
+      <div class="col-lg-6">
+        <h3>Introduction</h3>
+        <p>
+          Collision detection is the process of checking for intersections between geometric shapes.
+          It is time-consuming and usually brings performance bottlenecks when you are creating your physics engine.
+          Here, I would like to highlight my simple data structure adopted in my physics engine, which does a bit of time-memory tradeoff to improve overral performance and scalability.
+        </p>
+      </div>
+    </div>
+
+    <div class="pt-5 row">
+      <div class="col-md">
+        <div class="pb-5">
+          <h3>The algorithm</h3>
+          For each body ‘b’, do below
+          <ol>
+            <li>Find all neighbours of ‘b’</li>
+            <li>For each neighbour ’n’ of ‘b’ do below</li>
+            <li>Run broad phase check between ’n’ and ‘b’</li>
+            <li>If passed broad phase, handle collision between ’n’ and ‘b’</li>
+          </ol>
+          <p>
+            Algorithms like above requires checking for pairwise collisions between all entities in the world.
+            Due to the <strong>O(n^2)</strong> overhead, performance degrades quickly when more entities are added to the world.
+            Usually some noticeable fps drops when starting to deal with hundreds of objects.
+            To fix this issue. I implemented a simple quadtree data structure for storing all world objects which scales much better at larger quantities.
+            The idea is to recursively divide the world region into 4 partitions/buckets which makes it easier to locate entities and perform other spacial queries.
+          </p>
+          <img src="../images/chart1.png" width="800" height="400">
+          <p>
+            As shown above, objects can only collide with others which reside in the same or adjacent buckets.
+            It saves us some iterations during the collision detection phase.
+            First, we need to find out which bucket does an object reside in (Find the ‘territory’).
+            The exact bucket where an object resides can be calculated based on its location and size. (We define the location of each object as its geometry centre).
+            Here we couldn’t just treat the smallest bucket on the grid as one’s territory due to size variations, as shown below.
+          </p>
+          <img src="../images/chart2.png" width="800" height="400">
+          <p>
+            The collision between the elephant and dice happed far away from the elephant’s geometry centre, therefore it would insufficient to check its 1-unit sized territory and adjacent regions.
+            To solve this problem, a hierarchy of buckets are used to handle objects of different sizes. First we define the following terms.
+          </p>
+          <ul>
+            <li>Buckets: Region covered by nodes on the quadtree.</li>
+            <li>Level-’n’ buckets: The buckets generated during the ’n’th round of partitioning. (Width 1/2^n of the world)</li>
+            <li>Radius of an object: The longest distance from the geometry centre to an edge or corner.</li>
+            <li>Territory of an object: The smallest bucket contains the object’s location, whose width ‘w’ is larger then 2*object’s radius.</li>
+            <li>Neighbours: Adjacent (includes diagonal) level-’n’ buckets of a level-’n’ territory. (8 neighbours in 2D)</li>
+          </ul>
+          <p>
+            Given the object’s location, we can find its territory and neighbours as defined above, then for each body in the world, it is sufficient to check within its territory and neighbours to look for potential collisions. Assuming all bodies are rigid with non-zero radius, we can achieve <strong>O(nlog(n))</strong> in an average case.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md">
+        <div class="">
+          <h3>Proof of Correctness</h4>
+          <p>
+            Claim: For any pair of bodies (A, B), if A is colliding with B, then either
+          </p>
+          <ol>
+            <li>A is B’s T&N region, or</li>
+            <li>B is in A’s T&N region.</li>
+          </ol>
+          <p>
+            Proof: Assume above doesn’t hold, then we can find a colliding pair (A, B) such that neither (1) nor (2) holds. Since A is colliding with B, then we have dist(A,B) <= r(A) + r(B). Since A is not in B’s T&N region, we have dist(A,B) >= w(B) > 2*r(B). Similarly, since B is not in A’s T&N region, we have dist(A,B) >= w(A) > 2*r(A). Combine inequalities: 2*dist(A,B) > 2*(r(A)+r(B)), dist(A,B) > r(A)+r(B) which contradicts to dist(A,B) <= r(A) + r(B). QED.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md">
+        <div class="">
+          <h3>Performance benchmarks</h4>
+          <p>
+            Device: 2.7 GHz Dual-Core Intel Core i5, 8 GB 1867 MHz DDR3, Intel Iris Graphics 6100 1536 MB
+            Chrome: 89
+          </p>
+          <img src="../images/chart4.png" width="600" height="400">
+          <img src="../images/chart5.png" width="600" height="400">
+          <p>
+            The performance difference here is mainly because of efficient neighbour search. (At around 3000 bodies,
+            the nested loop approach is checking 8 millions pairs per tick!)
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-5">
+        <div class="col-md">
+          <div class="">
+            <h3>Limitations</h3>
+            <ul>
+              <li>Normally, JS is not the ideal place to do such resource intensive work</li>
+              <li>Simulation is less realistic comparing to matter.js, even though we have better performance</li>
+              <li>Stable stacking issue is not solved here. It requires complex solvers (e.g. To solve a system of differential equations)!</li>
+              <li>Shapes have to be convex</li>
+            </ul>
+          </div>
+        </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
